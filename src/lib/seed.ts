@@ -1,0 +1,325 @@
+import type { DiningTable, KitchenTicket, Sale, Ticket } from "./types";
+
+export const CASHIER = {
+  name: "Maya Chen",
+  role: "Floor lead",
+  shift: "Dinner · 4–close",
+  avatar: "/images/staff/maya-chen.jpg",
+  initials: "MC",
+};
+
+export const RESTAURANT = {
+  name: "Aurelia",
+  tagline: "Fire · Citrus · Night service",
+  address: "1847 Hyperion Ave, Los Angeles",
+  demo: true,
+};
+
+const minutesAgo = (m: number) => Date.now() - m * 60_000;
+
+export const INITIAL_TABLES: DiningTable[] = [
+  { id: "t1", number: 1, seats: 2, zone: "Window", status: "vacant", ticketId: null, server: "Maya", x: 6, y: 10, w: 18, h: 22 },
+  { id: "t2", number: 2, seats: 2, zone: "Window", status: "reserved", ticketId: null, server: "Luis", reservedName: "Okada 8:15", x: 28, y: 10, w: 18, h: 22 },
+  { id: "t3", number: 3, seats: 4, zone: "Window", status: "occupied", ticketId: "tk-t3", server: "Maya", x: 50, y: 8, w: 22, h: 28 },
+  { id: "t4", number: 4, seats: 4, zone: "Window", status: "vacant", ticketId: null, server: "Priya", x: 76, y: 10, w: 18, h: 22 },
+  { id: "t5", number: 5, seats: 2, zone: "Hearth", status: "occupied", ticketId: "tk-t5", server: "Luis", x: 8, y: 42, w: 16, h: 20 },
+  { id: "t6", number: 6, seats: 6, zone: "Hearth", status: "occupied", ticketId: "tk-t6", server: "Maya", x: 30, y: 40, w: 28, h: 26 },
+  { id: "t7", number: 7, seats: 4, zone: "Hearth", status: "billed", ticketId: "tk-t7", server: "Priya", x: 64, y: 40, w: 22, h: 24 },
+  { id: "t8", number: 8, seats: 2, zone: "Hearth", status: "vacant", ticketId: null, server: "Luis", x: 90, y: 44, w: 8, h: 18 },
+  { id: "t9", number: 9, seats: 4, zone: "Garden", status: "vacant", ticketId: null, server: "Priya", x: 8, y: 74, w: 20, h: 20 },
+  { id: "t10", number: 10, seats: 8, zone: "Garden", status: "reserved", ticketId: null, server: "Maya", reservedName: "Hart party", x: 34, y: 72, w: 32, h: 22 },
+  { id: "t11", number: 11, seats: 2, zone: "Garden", status: "occupied", ticketId: "tk-t11", server: "Luis", x: 72, y: 74, w: 12, h: 18 },
+  { id: "t12", number: 12, seats: 4, zone: "Garden", status: "vacant", ticketId: null, server: "Priya", x: 88, y: 74, w: 10, h: 20 },
+];
+
+export function emptyTicket(partial: Partial<Ticket> & { id: string; orderType: Ticket["orderType"] }): Ticket {
+  return {
+    tableId: null,
+    customerName: "",
+    lines: [],
+    held: false,
+    tipPercent: 0.18,
+    createdAt: Date.now(),
+    covers: 2,
+    ...partial,
+  };
+}
+
+export const INITIAL_TICKETS: Record<string, Ticket> = {
+  "tk-t3": {
+    id: "tk-t3",
+    tableId: "t3",
+    customerName: "Table 3",
+    orderType: "dine-in",
+    held: false,
+    tipPercent: 0.18,
+    createdAt: minutesAgo(28),
+    covers: 4,
+    lines: [
+      {
+        lineId: "l-t3-1",
+        itemId: "burrata-peach",
+        quantity: 2,
+        modifiers: [],
+        notes: "",
+        unitPrice: 18,
+      },
+      {
+        lineId: "l-t3-2",
+        itemId: "ribeye",
+        quantity: 1,
+        modifiers: [
+          { groupId: "doneness", optionIds: ["mr"] },
+          { groupId: "finish", optionIds: ["truffle-fries"] },
+        ],
+        notes: "Split if possible",
+        unitPrice: 76,
+      },
+    ],
+  },
+  "tk-t5": {
+    id: "tk-t5",
+    tableId: "t5",
+    customerName: "Table 5",
+    orderType: "dine-in",
+    held: false,
+    tipPercent: 0.2,
+    createdAt: minutesAgo(12),
+    covers: 2,
+    lines: [
+      {
+        lineId: "l-t5-1",
+        itemId: "tuna-crudo",
+        quantity: 1,
+        modifiers: [],
+        notes: "",
+        unitPrice: 22,
+      },
+      {
+        lineId: "l-t5-2",
+        itemId: "yuzu-paloma",
+        quantity: 2,
+        modifiers: [{ groupId: "build", optionIds: ["rocks"] }],
+        notes: "",
+        unitPrice: 14,
+      },
+    ],
+  },
+  "tk-t6": {
+    id: "tk-t6",
+    tableId: "t6",
+    customerName: "Table 6",
+    orderType: "dine-in",
+    held: false,
+    tipPercent: 0.18,
+    createdAt: minutesAgo(41),
+    covers: 6,
+    lines: [
+      {
+        lineId: "l-t6-1",
+        itemId: "pizza-nduja",
+        quantity: 2,
+        modifiers: [{ groupId: "size", optionIds: ["14"] }],
+        notes: "",
+        unitPrice: 33,
+      },
+      {
+        lineId: "l-t6-2",
+        itemId: "lobster-risotto",
+        quantity: 2,
+        modifiers: [],
+        notes: "One dairy-light",
+        unitPrice: 42,
+      },
+      {
+        lineId: "l-t6-3",
+        itemId: "espresso-martini",
+        quantity: 3,
+        modifiers: [{ groupId: "build", optionIds: ["up"] }],
+        notes: "",
+        unitPrice: 15,
+      },
+    ],
+  },
+  "tk-t7": {
+    id: "tk-t7",
+    tableId: "t7",
+    customerName: "Table 7",
+    orderType: "dine-in",
+    held: false,
+    tipPercent: 0.2,
+    createdAt: minutesAgo(64),
+    covers: 4,
+    lines: [
+      {
+        lineId: "l-t7-1",
+        itemId: "duck-breast",
+        quantity: 2,
+        modifiers: [],
+        notes: "",
+        unitPrice: 36,
+      },
+      {
+        lineId: "l-t7-2",
+        itemId: "chocolate-nemesis",
+        quantity: 2,
+        modifiers: [],
+        notes: "",
+        unitPrice: 14,
+      },
+    ],
+  },
+  "tk-t11": {
+    id: "tk-t11",
+    tableId: "t11",
+    customerName: "Table 11",
+    orderType: "dine-in",
+    held: false,
+    tipPercent: 0.15,
+    createdAt: minutesAgo(7),
+    covers: 2,
+    lines: [
+      {
+        lineId: "l-t11-1",
+        itemId: "old-fashioned",
+        quantity: 1,
+        modifiers: [{ groupId: "build", optionIds: ["rocks"] }],
+        notes: "",
+        unitPrice: 16,
+      },
+    ],
+  },
+};
+
+export const INITIAL_KITCHEN: KitchenTicket[] = [
+  {
+    id: "kds-1",
+    ticketId: "tk-t6",
+    tableLabel: "T6 · Hearth",
+    status: "pending",
+    firedAt: minutesAgo(4),
+    items: [
+      { name: "Spicy 'Nduja & Burrata", qty: 2, notes: '14"' },
+      { name: "Saffron Lobster Risotto", qty: 2, notes: "One dairy-light" },
+    ],
+  },
+  {
+    id: "kds-2",
+    ticketId: "tk-t3",
+    tableLabel: "T3 · Window",
+    status: "preparing",
+    firedAt: minutesAgo(16),
+    items: [
+      { name: "Burrata & Charred Peach", qty: 2 },
+      { name: "Dry-Aged Ribeye 16oz", qty: 1, notes: "Medium rare · truffle fries" },
+    ],
+  },
+  {
+    id: "kds-3",
+    ticketId: "tk-t5",
+    tableLabel: "T5 · Hearth",
+    status: "preparing",
+    firedAt: minutesAgo(9),
+    items: [{ name: "Tuna Crudo, Yuzu & Chili", qty: 1 }],
+  },
+  {
+    id: "kds-4",
+    ticketId: "seed-ready-1",
+    tableLabel: "T9 · Garden",
+    status: "ready",
+    firedAt: minutesAgo(22),
+    items: [
+      { name: "Herb-Roasted Branzino", qty: 1 },
+      { name: "Olive Oil Cake, Citrus", qty: 1 },
+    ],
+  },
+  {
+    id: "kds-5",
+    ticketId: "seed-ready-2",
+    tableLabel: "Takeaway",
+    status: "ready",
+    firedAt: minutesAgo(11),
+    items: [{ name: "Bianca Tartufo", qty: 1, notes: '12"' }],
+  },
+];
+
+export const INITIAL_SALES: Sale[] = [
+  {
+    id: "sale-1",
+    ticketId: "closed-1",
+    tableLabel: "T1",
+    items: [
+      { itemId: "ribeye", name: "Dry-Aged Ribeye 16oz", qty: 2, revenue: 136 },
+      { itemId: "old-fashioned", name: "Smoked Old Fashioned", qty: 2, revenue: 32 },
+    ],
+    subtotal: 168,
+    tax: 16.8,
+    service: 8.4,
+    tip: 30.24,
+    total: 223.44,
+    method: "card",
+    at: minutesAgo(92),
+  },
+  {
+    id: "sale-2",
+    ticketId: "closed-2",
+    tableLabel: "Takeaway",
+    items: [
+      { itemId: "pizza-tartufo", name: "Bianca Tartufo", qty: 3, revenue: 72 },
+      { itemId: "pizza-fig", name: "Fig, Prosciutto & Honey", qty: 1, revenue: 26 },
+    ],
+    subtotal: 98,
+    tax: 9.8,
+    service: 0,
+    tip: 0,
+    total: 107.8,
+    method: "apple-pay",
+    at: minutesAgo(70),
+  },
+  {
+    id: "sale-3",
+    ticketId: "closed-3",
+    tableLabel: "T8",
+    items: [
+      { itemId: "lobster-risotto", name: "Saffron Lobster Risotto", qty: 2, revenue: 84 },
+      { itemId: "tuna-crudo", name: "Tuna Crudo, Yuzu & Chili", qty: 1, revenue: 22 },
+      { itemId: "espresso-martini", name: "Espresso Martini, Cacao", qty: 2, revenue: 30 },
+    ],
+    subtotal: 136,
+    tax: 13.6,
+    service: 6.8,
+    tip: 24.48,
+    total: 180.88,
+    method: "card",
+    at: minutesAgo(48),
+  },
+  {
+    id: "sale-4",
+    ticketId: "closed-4",
+    tableLabel: "T12",
+    items: [
+      { itemId: "wagyu-skirt", name: "Wagyu Skirt, Chimichurri", qty: 2, revenue: 96 },
+      { itemId: "burrata-peach", name: "Burrata & Charred Peach", qty: 1, revenue: 18 },
+    ],
+    subtotal: 114,
+    tax: 11.4,
+    service: 5.7,
+    tip: 20.52,
+    total: 151.62,
+    method: "cash",
+    at: minutesAgo(31),
+  },
+  {
+    id: "sale-5",
+    ticketId: "closed-5",
+    tableLabel: "Delivery",
+    items: [{ itemId: "pizza-nduja", name: "Spicy 'Nduja & Burrata", qty: 4, revenue: 100 }],
+    subtotal: 100,
+    tax: 10,
+    service: 0,
+    tip: 15,
+    total: 125,
+    method: "card",
+    at: minutesAgo(18),
+  },
+];

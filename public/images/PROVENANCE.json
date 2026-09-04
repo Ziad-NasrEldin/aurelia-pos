@@ -1,0 +1,27 @@
+{
+  "generator": "grok-imagine-image-quality",
+  "style": "Photorealistic Michelin-star restaurant photography. Dark ceramic, walnut, warm tungsten, shallow depth of field. No text, no hands, no watermark.",
+  "assets": {
+    "/images/dishes/tomato-consomme.jpg": "Heirloom tomato consommé in a wide dark bowl, basil blossom and gold oil droplets.",
+    "/images/dishes/tuna-crudo.jpg": "Tuna crudo: ruby yellowfin, yuzu pearls, chili oil, ice plant.",
+    "/images/dishes/burrata-peach.jpg": "Burrata torn over charred peach, basil oil, crushed pistachio.",
+    "/images/dishes/bone-marrow.jpg": "Roasted bone marrow, grilled sourdough, parsley-shallot salad.",
+    "/images/dishes/branzino.jpg": "Whole herb-roasted branzino, lemon, fennel fronds.",
+    "/images/dishes/duck-breast.jpg": "Sliced duck breast, cherry gastrique, caramelized fennel.",
+    "/images/dishes/lobster-risotto.jpg": "Saffron lobster risotto, split tail, chive oil.",
+    "/images/dishes/pizza-nduja.jpg": "Spicy nduja pizza with torn burrata and chili oil.",
+    "/images/dishes/filet-mignon.jpg": "Filet mignon, green peppercorn sauce, roasted baby carrot.",
+    "/images/dishes/pizza-tartufo.jpg": "Bianca tartufo pizza, mozzarella, shaved black truffle.",
+    "/images/dishes/pizza-fig.jpg": "Fig, prosciutto, goat cheese, honey on blistered crust.",
+    "/images/dishes/lamb-chops.jpg": "Fire-roasted lamb chops, pomegranate, smoked eggplant.",
+    "/images/dishes/wagyu-skirt.jpg": "Wagyu skirt steak, chimichurri, charred scallion.",
+    "/images/dishes/ribeye.jpg": "Dry-aged bone-in ribeye, herb butter, rose interior.",
+    "/images/dishes/black-cod.jpg": "Miso-glazed black cod, shishito, pickled daikon.",
+    "/images/dishes/chocolate-nemesis.jpg": "Dark chocolate nemesis, ganache, gold leaf, crème fraîche.",
+    "/images/dishes/espresso-martini.jpg": "Espresso martini with cacao dust in a coupe.",
+    "/images/staff/maya-chen.jpg": "Fictional floor lead portrait, warm tungsten restaurant interior.",
+    "/images/dishes/olive-oil-cake.jpg": "Olive oil cake, candied citrus, mascarpone.",
+    "/images/dishes/yuzu-paloma.jpg": "Yuzu paloma, salt rim, grapefruit, rosemary.",
+    "/images/dishes/smoked-old-fashioned.jpg": "Smoked old fashioned, large ice, orange peel, applewood smoke."
+  }
+}
